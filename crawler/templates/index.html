@@ -14,7 +14,7 @@
         <!-- Wrapper for slides -->
         <div class="carousel-inner">
             <div class="item active">
-                <center><img src={{ first_recipe.strMealThumb }}></center>
+                <a href="/{{ first_recipe.idMeal }}/"><center><img src={{ first_recipe.strMealThumb }}></center></a>
                 <div class="carousel-caption">
                     <h3>{{ first_recipe.strMeal }}</h3>
                     <p>{{ first_recipe.strCategory }}</p>
@@ -22,7 +22,7 @@
             </div>
             {% for r in recipes %}
                 <div class="item">
-                    <center><img src={{ r.strMealThumb }}></center>
+                    <a href="/{{ r.idMeal }}/"><center><img src={{ r.strMealThumb }}></center></a>
                     <div class="carousel-caption">
                         <h3>{{ r.strMeal }}</h3>
                         <p>{{ r.strCategory }}</p>
