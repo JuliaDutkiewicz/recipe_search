@@ -1,0 +1,7 @@
+{% extends 'base.html' %}
+
+{% block navbar %}
+    <li class="active"><a href={% url 'index' %}>Home Page</a></li>
+    <li><a href={% url 'search' %}>Search for recipes</a></li>
+    <li><a href={% url 'favorites' %}>Favorites</a></li>
+{% endblock navbar %}

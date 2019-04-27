@@ -37,6 +37,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'crawler',
 ]
 
 MIDDLEWARE = [
@@ -54,6 +55,7 @@ ROOT_URLCONF = 'recipe_search.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
+
         'DIRS': [],
         'APP_DIRS': True,
         'OPTIONS': {
