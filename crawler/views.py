@@ -1,6 +1,8 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
 
+import shutil
+
 from django.shortcuts import render
 
 import requests
@@ -14,9 +16,13 @@ def index(request):
     for i in range(5):
         random_meal = requests.get('https://www.themealdb.com/api/json/v1/1/random.php')
         if (random_meal.status_code == 200):
-            meals.append(random_meal.json())
+            meals.append(random_meal.json()['meals'][0])
+    first_recipe = requests.get('https://www.themealdb.com/api/json/v1/1/random.php')
+    if (first_recipe.status_code != 200):
+        first_recipe = None
     context = {
-        'recipes' : meals
+        'first_recipe': first_recipe.json()['meals'][0],
+        'recipes': meals
     }
     return render(request, 'index.html', context)
 
