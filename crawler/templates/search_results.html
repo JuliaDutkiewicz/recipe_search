@@ -7,7 +7,17 @@
 {% endblock navbar %}
 
 {% block content %}
-    {% for m in meals %}
-        m.strMeal
-    {% endfor %}
+    <html>
+    <head>
+        <title> Search </title>
+    </head>
+    <body>
+    <p> The results are listed below.</p>
+    <ul>
+        {% for m in meals %}
+            <li>{{ m.strMeal }}</li>
+        {% endfor %}
+    </ul>
+    </body>
+    </html>
 {% endblock content %}
