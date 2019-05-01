@@ -5,9 +5,11 @@ import shutil
 
 from django.http import HttpResponse
 from django.shortcuts import render
+from .forms import SearchForm
 
 import requests
 import configuration
+
 
 
 # Create your views here.
@@ -51,8 +53,17 @@ def log_in(request):
 
 
 def search(request):
-    return render(request, 'search.html')
+    return render(request, 'search.html', context={"form" :SearchForm()})
 
 
 def favorites(request):
     return render(request, 'favorites.html')
+
+def search_results(request, ingredients_list):
+    meal = request.get('https://www.themealdb.com/api/json/v2' + configuration.API_KEY + 'filter.php?i=' + ingredients_list)
+    if meal.status_code == 200:
+        context = {
+            "meals": meal.json()["meals"],
+        }
+        return render(request, 'search_results.html', context)
+    return HttpResponse("No recipe with such ingredients") #todo

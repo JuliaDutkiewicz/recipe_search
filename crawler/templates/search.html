@@ -7,7 +7,30 @@
 {% endblock navbar %}
 
 {% block content %}
-    <div class="basic">
-        {% include "working.html" %}
+    <div class="form-search">
+        <label for="usr">Search:</label>
+        <input type="text" class="form-search-text" id="search-text">
+        <!-- <a href="/search/'" class="btn btn-info" role="button">Search</a> -->
+        <!-- <button onselect="myfunciton()">Search</button> 
+        <script>
+            function myfunction() {
+                var input = document.getElementById("search-text").value;
+                window.location.href = "search/" + input;
+                console.log(input);
+            }
+        </script> -->
+
+        <form method="GET">
+                {% csrf_token %}
+                <input type="hidden" name="next"">
+                {{ form.as_p }}
+        
+                <div class="container">
+                    <a href="/search/{{ form.as_url_args }}">Search</a>
+                </div>
+        
+        </form>
     </div>
 {% endblock content %}
+
+
