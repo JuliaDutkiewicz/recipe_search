@@ -3,12 +3,14 @@ from __future__ import unicode_literals
 
 import shutil
 
+from django.contrib.flatpages.models import FlatPage
 from django.http import HttpResponse
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 
 import requests
-import configuration
+from django.template import loader
 
+import configuration
 
 # Create your views here.
 
@@ -30,7 +32,8 @@ def index(request):
 
 
 def recipe(request, recipe_id):
-    meal = requests.get('https://www.themealdb.com/api/json/v2/' + configuration.API_KEY + '/lookup.php?i=' + str(recipe_id))
+    meal = requests.get(
+        'https://www.themealdb.com/api/json/v2/' + configuration.API_KEY + '/lookup.php?i=' + str(recipe_id))
     if meal.status_code == 200:
         address = meal.json()["meals"][0]['strYoutube']
         embed_address = address.replace("watch?v=", "embed/")
@@ -43,16 +46,51 @@ def recipe(request, recipe_id):
 
 
 def sign_in(request):
-    return render(request, 'sign_in.html')
+    response = redirect('accounts/signup')
+    return response
 
 
 def log_in(request):
-    return render(request, 'log_in.html')
+    response = redirect('accounts/login')
+    return response
 
 
 def search(request):
-    return render(request, 'search.html')
+    if request.method == 'GET':
+        print(request.GET)
+        query = request.GET.get('q')
+
+        print(query)
+
+        if query is not None:
+            print(query)
+            return render(request, 'search.html')
+
+        else:
+            return render(request, 'search.html')
+
+    else:
+        return render(request, 'search.html')
 
 
 def favorites(request):
     return render(request, 'favorites.html')
+
+
+def search_results(request):
+    if 'q' in request.GET:
+        input = request.GET['q']
+        print(input)
+        meal = requests.get(
+            'https://www.themealdb.com/api/json/v2/' + configuration.API_KEY + '/filter.php?i=' + input)
+        if meal.status_code == 200:
+            context = {
+                "meals": meal.json()["meals"]
+            }
+
+            return render(request, "search_results.html", context)
+        else:
+            return HttpResponse(meal.status_code)
+    else:
+        message = 'You submitted an empty form.'
+        return HttpResponse(message)
