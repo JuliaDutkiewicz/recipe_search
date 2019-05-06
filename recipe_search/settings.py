@@ -36,7 +36,16 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'django.contrib.sites',
+    'django.contrib.flatpages',
+
     'crawler',
+    'login',
+
+    'allauth',
+    'allauth.account',
+    'allauth.socialaccount',
+    'allauth.socialaccount.providers.google',
 ]
 
 MIDDLEWARE = [
@@ -54,8 +63,7 @@ ROOT_URLCONF = 'recipe_search.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-
-        'DIRS': [],
+        'DIRS': [os.path.join(BASE_DIR, 'templates'), os.path.join(BASE_DIR, 'templates', 'accounts')],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -115,3 +123,16 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/1.11/howto/static-files/
 
 STATIC_URL = '/static/'
+
+AUTHENTICATION_BACKENDS = (
+    'django.contrib.auth.backends.ModelBackend',
+    'allauth.account.auth_backends.AuthenticationBackend',
+)
+
+SITE_ID = 1
+
+LOGIN_URL = '/'
+LOGIN_REDIRECT_URL = '/'
+
+# SOCIAL_AUTH_GOOGLE_OAUTH2_KEY = configuration.SOCIAL_AUTH_GOOGLE_OAUTH2_KEY
+# SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET = configuration.SOCIAL_AUTH_GOOGLE_OAUTH2_KEY

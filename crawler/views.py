@@ -5,7 +5,7 @@ import shutil
 
 from django.contrib.flatpages.models import FlatPage
 from django.http import HttpResponse
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 
 import requests
 from django.template import loader
@@ -46,11 +46,13 @@ def recipe(request, recipe_id):
 
 
 def sign_in(request):
-    return render(request, 'sign_in.html')
+    response = redirect('accounts/signup')
+    return response
 
 
 def log_in(request):
-    return render(request, 'log_in.html')
+    response = redirect('accounts/login')
+    return response
 
 
 def search(request):
