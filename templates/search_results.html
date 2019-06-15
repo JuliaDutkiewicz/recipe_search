@@ -13,11 +13,16 @@
     </head>
     <body>
     <p> The results for your search : </p>
-    <ul>
+    <div class="list-group">
         {% for m in meals %}
-            <li>{{ m.strMeal }}</li>
+            <a href="/{{ m.idMeal }}/" class="list-group-item">
+                <h4 class="list-group-item-heading"><center>{{ m.strMeal }}</center></h4>
+                <p class="list-group-item-image">
+                <center><img src={{ m.strMealThumb }} width="200"></center>
+                </p>
+            </a>
         {% endfor %}
-    </ul>
+    </div>
     </body>
     </html>
 {% endblock content %}
