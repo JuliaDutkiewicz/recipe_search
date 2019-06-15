@@ -40,7 +40,6 @@ INSTALLED_APPS = [
     'django.contrib.flatpages',
 
     'crawler',
-    'login',
 
     'allauth',
     'allauth.account',

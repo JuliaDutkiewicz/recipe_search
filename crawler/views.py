@@ -56,21 +56,7 @@ def log_in(request):
 
 
 def search(request):
-    if request.method == 'GET':
-        print(request.GET)
-        query = request.GET.get('q')
-
-        print(query)
-
-        if query is not None:
-            print(query)
-            return render(request, 'search.html')
-
-        else:
-            return render(request, 'search.html')
-
-    else:
-        return render(request, 'search.html')
+    return render(request, 'search.html')
 
 
 def favorites(request):
@@ -80,6 +66,13 @@ def favorites(request):
 def search_results(request):
     if 'q' in request.GET:
         input = request.GET['q']
+        if 'q/' in request.GET:
+            if isinstance(request.GET['q/'],list):
+                for ingredient in request.GET['q/']:
+                    input += ',' + ingredient
+            else:
+                input += ',' + request.GET['q/']
+        print(request.GET)
         print(input)
         meal = requests.get(
             'https://www.themealdb.com/api/json/v2/' + configuration.API_KEY + '/filter.php?i=' + input)
