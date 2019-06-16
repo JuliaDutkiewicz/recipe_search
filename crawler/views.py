@@ -79,8 +79,6 @@ def search_results(request):
                     ingredients += ',' + ingredient
             else:
                 ingredients += ',' + request.GET['q/']
-        print(request.GET)
-        print(ingredients)
         meal = requests.get(
             'https://www.themealdb.com/api/json/v2/' + configuration.API_KEY + '/filter.php?i='
             + ingredients)
