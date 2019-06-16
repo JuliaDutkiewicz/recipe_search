@@ -7,13 +7,40 @@
 {% endblock navbar %}
 
 {% block content %}
-    <h1>Search Page</h1>
-    <form action={% url 'search_results' %} method="get">
-        <input type="text" name="q">
-        <input type="submit" value="Search">
-    </form>
+    <script>
+        $(document).ready(function () {
+            var max_fields = 20;
+            var wrapper = $(".container1");
+            var add_button = $(".add_form_field");
 
-    </html>
+            var x = 1;
+            $(add_button).click(function (e) {
+                e.preventDefault();
+                if (x < max_fields) {
+                    x++;
+                    $(wrapper).append('<div><input type="text" name=q/> <a href="#" class="delete btn btn-primary btn-xs">-</a></div>'); //add input box
+                } else {
+                    alert('You Reached the limits')
+                }
+            });
+
+            $(wrapper).on("click", ".delete", function (e) {
+                e.preventDefault();
+                $(this).parent('div').remove();
+                x--;
+            })
+        });
+    </script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <form action={% url 'search_results' %} method="get">
+        <div class="container1">
+            <div>
+                <input type="text" name="q">
+                <button type="button" class="add_form_field btn btn-primary btn-xs">+</button>
+                <input type="submit" value="Search">
+            </div>
+        </div>
+    </form>
 {% endblock content %}
 
 

@@ -1,16 +1,12 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
 
-import shutil
-
-from django.contrib.flatpages.models import FlatPage
+import requests
 from django.http import HttpResponse
 from django.shortcuts import render, redirect
 
-import requests
-from django.template import loader
-
 import configuration
+
 
 # Create your views here.
 
@@ -18,10 +14,12 @@ import configuration
 def index(request):
     meals = []
     for i in range(5):
-        random_meal = requests.get('https://www.themealdb.com/api/json/v2/' + configuration.API_KEY + '/random.php')
+        random_meal = requests.get(
+            'https://www.themealdb.com/api/json/v2/' + configuration.API_KEY + '/random.php')
         if (random_meal.status_code == 200):
             meals.append(random_meal.json()['meals'][0])
-    first_recipe = requests.get('https://www.themealdb.com/api/json/v2/' + configuration.API_KEY + '/random.php')
+    first_recipe = requests.get(
+        'https://www.themealdb.com/api/json/v2/' + configuration.API_KEY + '/random.php')
     if (first_recipe.status_code != 200):
         first_recipe = None
     context = {
@@ -33,7 +31,8 @@ def index(request):
 
 def recipe(request, recipe_id):
     meal = requests.get(
-        'https://www.themealdb.com/api/json/v2/' + configuration.API_KEY + '/lookup.php?i=' + str(recipe_id))
+        'https://www.themealdb.com/api/json/v2/' + configuration.API_KEY + '/lookup.php?i=' + str(
+            recipe_id))
     if meal.status_code == 200:
         address = meal.json()["meals"][0]['strYoutube']
         embed_address = address.replace("watch?v=", "embed/")
@@ -56,21 +55,7 @@ def log_in(request):
 
 
 def search(request):
-    if request.method == 'GET':
-        print(request.GET)
-        query = request.GET.get('q')
-
-        print(query)
-
-        if query is not None:
-            print(query)
-            return render(request, 'search.html')
-
-        else:
-            return render(request, 'search.html')
-
-    else:
-        return render(request, 'search.html')
+    return render(request, 'search.html')
 
 
 def favorites(request):
@@ -79,10 +64,15 @@ def favorites(request):
 
 def search_results(request):
     if 'q' in request.GET:
-        input = request.GET['q']
-        print(input)
+        ingredients = request.GET['q']
+        if 'q/' in request.GET:
+            if isinstance(request.GET['q/'], list):
+                for ingredient in request.GET['q/']:
+                    ingredients += ',' + ingredient
+            else:
+                ingredients += ',' + request.GET['q/']
         meal = requests.get(
-            'https://www.themealdb.com/api/json/v2/' + configuration.API_KEY + '/filter.php?i=' + input)
+            'https://www.themealdb.com/api/json/v2/' + configuration.API_KEY + '/filter.php?i=' + ingredients)
         if meal.status_code == 200:
             context = {
                 "meals": meal.json()["meals"]
