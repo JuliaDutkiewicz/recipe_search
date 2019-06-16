@@ -1,3 +1,5 @@
+"""Views implementation"""
+
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
 
@@ -8,19 +10,17 @@ from django.shortcuts import render, redirect
 import configuration
 
 
-# Create your views here.
-
-
 def index(request):
+    """Render the home page"""
     meals = []
-    for i in range(5):
+    for _ in range(5):
         random_meal = requests.get(
             'https://www.themealdb.com/api/json/v2/' + configuration.API_KEY + '/random.php')
-        if (random_meal.status_code == 200):
+        if random_meal.status_code == 200:
             meals.append(random_meal.json()['meals'][0])
     first_recipe = requests.get(
         'https://www.themealdb.com/api/json/v2/' + configuration.API_KEY + '/random.php')
-    if (first_recipe.status_code != 200):
+    if first_recipe.status_code != 200:
         first_recipe = None
     context = {
         'first_recipe': first_recipe.json()['meals'][0],
@@ -30,6 +30,7 @@ def index(request):
 
 
 def recipe(request, recipe_id):
+    """Render the specific recipe page"""
     meal = requests.get(
         'https://www.themealdb.com/api/json/v2/' + configuration.API_KEY + '/lookup.php?i=' + str(
             recipe_id))
@@ -45,24 +46,31 @@ def recipe(request, recipe_id):
 
 
 def sign_in(request):
+    # pylint: disable=unused-argument
+    """Render the sign in page"""
     response = redirect('accounts/signup')
     return response
 
 
 def log_in(request):
+    # pylint: disable=unused-argument
+    """Render the log in page"""
     response = redirect('accounts/login')
     return response
 
 
 def search(request):
+    """Render the search page"""
     return render(request, 'search.html')
 
 
 def favorites(request):
+    """Render the favourites page"""
     return render(request, 'favorites.html')
 
 
 def search_results(request):
+    """Render the search result page"""
     if 'q' in request.GET:
         ingredients = request.GET['q']
         if 'q/' in request.GET:
@@ -72,15 +80,14 @@ def search_results(request):
             else:
                 ingredients += ',' + request.GET['q/']
         meal = requests.get(
-            'https://www.themealdb.com/api/json/v2/' + configuration.API_KEY + '/filter.php?i=' + ingredients)
+            'https://www.themealdb.com/api/json/v2/' + configuration.API_KEY + '/filter.php?i='
+            + ingredients)
         if meal.status_code == 200:
             context = {
                 "meals": meal.json()["meals"]
             }
 
             return render(request, "search_results.html", context)
-        else:
-            return HttpResponse(meal.status_code)
-    else:
-        message = 'You submitted an empty form.'
-        return HttpResponse(message)
+        return HttpResponse(meal.status_code)
+    message = 'You submitted an empty form.'
+    return HttpResponse(message)
