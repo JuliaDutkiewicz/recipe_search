@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/1.11/ref/settings/
 """
 
 import os
+
 import configuration
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
@@ -40,7 +41,6 @@ INSTALLED_APPS = [
     'django.contrib.flatpages',
 
     'crawler',
-    'login',
 
     'allauth',
     'allauth.account',
@@ -63,7 +63,8 @@ ROOT_URLCONF = 'recipe_search.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [os.path.join(BASE_DIR, 'templates'), os.path.join(BASE_DIR, 'templates', 'accounts')],
+        'DIRS': [os.path.join(BASE_DIR, 'templates'),
+                 os.path.join(BASE_DIR, 'templates', 'accounts')],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [

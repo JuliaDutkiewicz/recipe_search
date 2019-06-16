@@ -1,8 +1,10 @@
-from django.conf.urls import url
-from django.urls import path, include
+"""Application's URL's"""
+
+from django.urls import path
 
 from . import views
 
+# pylint: disable=invalid-name
 urlpatterns = [
     path('', views.index, name='index'),
     path('log_in', views.log_in, name='log_in'),
