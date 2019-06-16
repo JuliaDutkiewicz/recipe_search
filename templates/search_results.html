@@ -12,11 +12,17 @@
         <title> Search </title>
     </head>
     <body>
-    <p> The results for your search : </p>
+    {% if meals != null %}
+        <h2> The results for your search : </h2>
+    {% else %}
+        <h2> No results for given ingredients </h2>
+    {% endif %}
     <div class="list-group">
         {% for m in meals %}
             <a href="/{{ m.idMeal }}/" class="list-group-item">
-                <h4 class="list-group-item-heading"><center>{{ m.strMeal }}</center></h4>
+                <h4 class="list-group-item-heading">
+                    <center>{{ m.strMeal }}</center>
+                </h4>
                 <p class="list-group-item-image">
                 <center><img src={{ m.strMealThumb }} width="200"></center>
                 </p>
