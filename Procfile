@@ -1,1 +1,1 @@
-web: gunicorn app:app --capture-output --log-level debug
+web: gunicorn recipe_search.wsgi --log-file -
