@@ -1,6 +1,6 @@
 django==2.1.9
 
-django-allauth==0.32.0
+django-allauth==0.39.1
 
 
 pylint==2.3.1
