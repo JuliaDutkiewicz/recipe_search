@@ -13,4 +13,5 @@ urlpatterns = [
     path('favorites', views.favorites, name='favorites'),
     path('<int:recipe_id>/', views.recipe, name='recipe'),
     path('search_results', views.search_results, name="search_results"),
+    path('log_out', views.log_out, name='log_out'),
 ]

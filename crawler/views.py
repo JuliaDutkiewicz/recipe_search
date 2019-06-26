@@ -2,7 +2,7 @@
 
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
-
+import os
 import requests
 from django.http import HttpResponse
 from django.shortcuts import render, redirect
@@ -15,11 +15,13 @@ def index(request):
     meals = []
     for _ in range(5):
         random_meal = requests.get(
-            'https://www.themealdb.com/api/json/v2/' + configuration.API_KEY + '/random.php')
+            'https://www.themealdb.com/api/json/v2/'
+            + os.environ.get('API_KEY', configuration.API_KEY) + '/random.php')
         if random_meal.status_code == 200:
             meals.append(random_meal.json()['meals'][0])
     first_recipe = requests.get(
-        'https://www.themealdb.com/api/json/v2/' + configuration.API_KEY + '/random.php')
+        'https://www.themealdb.com/api/json/v2/'
+        + os.environ.get('API_KEY', configuration.API_KEY) + '/random.php')
     if first_recipe.status_code != 200:
         first_recipe = None
     context = {
@@ -32,7 +34,8 @@ def index(request):
 def recipe(request, recipe_id):
     """Render the specific recipe page"""
     meal = requests.get(
-        'https://www.themealdb.com/api/json/v2/' + configuration.API_KEY + '/lookup.php?i=' + str(
+        'https://www.themealdb.com/api/json/v2/'
+        + os.environ.get('API_KEY', configuration.API_KEY) + '/lookup.php?i=' + str(
             recipe_id))
     if meal.status_code == 200:
         address = meal.json()["meals"][0]['strYoutube']
@@ -80,7 +83,8 @@ def search_results(request):
             else:
                 ingredients += ',' + request.GET['q/']
         meal = requests.get(
-            'https://www.themealdb.com/api/json/v2/' + configuration.API_KEY + '/filter.php?i='
+            'https://www.themealdb.com/api/json/v2/'
+            + os.environ.get('API_KEY', configuration.API_KEY) + '/filter.php?i='
             + ingredients)
         if meal.status_code == 200:
             context = {
@@ -91,3 +95,9 @@ def search_results(request):
         return HttpResponse(meal.status_code)
     message = 'You submitted an empty form.'
     return HttpResponse(message)
+
+def log_out(request):
+    # pylint: disable=unused-argument
+    """Render the log in page"""
+    response = redirect('accounts/logout')
+    return response
