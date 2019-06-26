@@ -92,3 +92,10 @@ def search_results(request):
         return HttpResponse(meal.status_code)
     message = 'You submitted an empty form.'
     return HttpResponse(message)
+
+def log_out(request):
+    # pylint: disable=unused-argument
+    """Render the log in page"""
+    response = redirect('accounts/logout')
+    return response
+

@@ -43,10 +43,16 @@
             <ul class="nav navbar-nav">
                 {% block navbar %}{% endblock navbar %}
             </ul>
+            {% if user.is_authenticated %}
+            <ul class="nav navbar-nav navbar-right">
+                <li><a href={% url 'log_out' %}><span class="glyphicon glyphicon-log-out"></span> Logout</a></li>
+            </ul>
+            {% else %}
             <ul class="nav navbar-nav navbar-right">
                 <li><a href={% url 'sign_in' %}><span class="glyphicon glyphicon-user"></span> Sign Up</a></li>
                 <li><a href={% url 'log_in' %}><span class="glyphicon glyphicon-log-in"></span> Login</a></li>
             </ul>
+            {% endif %}
         </div>
     </nav>
 
