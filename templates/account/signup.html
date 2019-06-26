@@ -9,6 +9,10 @@
 
 {% endblock %}
 
+{% block navbar %}
+    <li><a href={% url 'index' %}>Home Page</a></li>
+{% endblock navbar %}
+
 {% block content %}
 <div class="container-fluid">
 
@@ -32,7 +36,7 @@
 
 <h3 class="h3" id="head_banner">{% trans "Sign Up" %}</h3>
 
-<p class="exist_account_info">{% blocktrans %}Already have an account? Then please <a href="{{ login_url }}">sign in</a>.{% endblocktrans %}</p>
+<p class="exist_account_info" style="color:gray;">{% blocktrans %}Already have an account? Then please <a href="{{ login_url }}">sign in</a>.{% endblocktrans %}</p>
 
 <form class="container-fluid " id="signup_form" method="post" action="{% url 'account_signup' %}">
   {% csrf_token %}
@@ -45,7 +49,7 @@
 
   {% endif %}
 
-  <button class="btn btn-outline-primary btn-lg" type="submit">{% trans "Sign Up" %}</button>
+  <button class="btn btn-primary" type="submit">{% trans "Sign Up" %}</button>
 </form>
 
 </div>
