@@ -47,6 +47,8 @@ $ docker-compose up
     The main feature is filtering recipes by ingredients.
 
 ## Deployment
+Remember to set DEBUG = False in settings.py file.
+
 Use the following commands
 ```
 $  heroku stack:set container
