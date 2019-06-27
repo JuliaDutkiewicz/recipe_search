@@ -1,6 +1,6 @@
 # Recipe search
 A simple Django application for retriving recipes from [```TheMealDB API```](https://www.themealdb.com/api.php)
-The App is available at ```http://stormy-waters-60581.herokuapp.com```
+</br>The App is available at http://stormy-waters-60581.herokuapp.com
 
 # Table of Contents
 - [Getting Started](#getting-started)
